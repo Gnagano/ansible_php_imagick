@@ -1,0 +1,22 @@
+---
+imagick_packages:
+  - pkg-config
+  - libmagickwand-dev
+  - imagemagick
+  - build-essential
+  - autoconf
+
+imagick_repository:
+  'https://github.com/mkoppanen/imagick.git'
+
+imagick_download_dir:
+  '/tmp/imagick'
+
+imagick_phpize_path:
+  '/opt/anyenv/envs/phpenv/versions/7.2.11/bin/phpize'
+
+imagick_php_ini_path:
+  '/opt/anyenv/envs/phpenv/versions/7.2.11/etc/php.ini'
+
+imagick_php_extension_dir:
+  '/opt/anyenv/envs/phpenv/versions/7.2.11/lib/php/extensions/no-debug-non-zts-20170718/'

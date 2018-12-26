@@ -1,0 +1,31 @@
+# default server
+server {
+
+    listen 80; #default_server;
+    root {{ nginx_document_root }};
+    index index.php index.html index.htm;
+    server_name localhost;
+
+    location / {
+        if (-f $request_filename) {
+            #expired time for cache
+            expires 30d;
+            break;
+        }
+    }
+
+    location ~ [^/]\.php(/|$) {
+
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        if (!-f {{ nginx_document_root }}$fastcgi_script_name) {
+            return 404;
+        }
+
+        fastcgi_pass unix:/var/run/php/php{{ nginx_php_fpm_version }}-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME {{ nginx_document_root }}$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param PATH_TRANSLATED {{ nginx_document_root }}$fastcgi_path_info;
+    }
+}
