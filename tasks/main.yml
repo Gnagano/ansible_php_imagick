@@ -2,6 +2,18 @@
 # - include: install.yml   tags=nginx
 # - include: configure.yml tags=nginx
 
+#register the path for php.ini
+- name: register the path of php.ini
+  shell: 'php --ini | sed -n 2p | sed -e "s/^Loaded.*\ //g"'
+  register: path_php_ini
+  changed_when: no
+
+#register the path for extension_dir
+- name: register the value of extension_dir
+  shell: 'php -i | grep extension_dir | sed -e "s/^extension_dir\ =>[^=]*=>\ //g" | sed -n 1p'
+  register: extension_dir
+  changed_when: no
+
 - name: install required packages
   package:
     name: "{{ item }}"
@@ -22,7 +34,7 @@
 
 - name: configure
   become: yes
-  shell: "./configure" #--with-php-config={{ imagick_phpize_path }}"
+  shell: "./configure"
   args:
     chdir: "{{ imagick_download_dir }}"
   ignore_errors: yes
@@ -38,7 +50,5 @@
 
 - name: add imagick.so to php.ini
   lineinfile:
-    dest: "{{ imagick_php_ini_path }}"
-    line: "\t\textension = {{ imagick_php_extension_dir }}/imagick.so"
-
-# pecl channel-update pecl.php.net
+    dest: "{{ path_php_ini.stdout }}"
+    line: "extension = {{ extension_dir }}/imagick.so"
