@@ -16,19 +16,29 @@
     depth: 1
 
 - name: phpize
-  shell: "{{ imagick_phpize_path}}"
+  shell: phpize
+  args:
+    chdir: "{{ imagick_download_dir }}"
 
 - name: configure
-  shell: "./configure --with-php-config={{ imagick_phpize_path }}"
+  become: yes
+  shell: "./configure" #--with-php-config={{ imagick_phpize_path }}"
   args:
+    chdir: "{{ imagick_download_dir }}"
+  ignore_errors: yes
+
+- name: make
+  make:
     chdir: "{{ imagick_download_dir }}"
 
 - name: make install
-  shell: make install
-  args:
+  make:
+    target: install
     chdir: "{{ imagick_download_dir }}"
 
-- name: add imgick.so to php.ini
+- name: add imagick.so to php.ini
   lineinfile:
-    dest: "{{ imgick_php_ini_path }}"
-    line: "\t\textension = {{ imagick_php_extension_dir }}/imgick.so"
+    dest: "{{ imagick_php_ini_path }}"
+    line: "\t\textension = {{ imagick_php_extension_dir }}/imagick.so"
+
+# pecl channel-update pecl.php.net
