@@ -1,7 +1,4 @@
 ---
-# - include: install.yml   tags=nginx
-# - include: configure.yml tags=nginx
-
 #register the path for php.ini
 - name: register the path of php.ini
   shell: 'php --ini | sed -n 2p | sed -e "s/^Loaded.*\ //g"'
