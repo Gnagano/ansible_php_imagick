@@ -7,8 +7,6 @@ imagick_packages:
   - autoconf
   - gcc
 
-imagick_php_version: '7.2.12'
-
 imagick_repository:
   'https://github.com/mkoppanen/imagick.git'
 

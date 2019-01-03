@@ -37,7 +37,6 @@
   shell: "./configure"
   args:
     chdir: "{{ imagick_download_dir }}"
-  ignore_errors: yes
 
 - name: make
   make:
@@ -51,4 +50,4 @@
 - name: add imagick.so to php.ini
   lineinfile:
     dest: "{{ path_php_ini.stdout }}"
-    line: "extension = {{ extension_dir }}/imagick.so"
+    line: "extension = {{ extension_dir.stdout }}/imagick.so"
