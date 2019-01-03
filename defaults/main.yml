@@ -1,0 +1,14 @@
+---
+imagick_packages:
+  - pkg-config
+  - libmagickwand-dev
+  - imagemagick
+  - build-essential
+  - autoconf
+  - gcc
+
+imagick_repository:
+  'https://github.com/mkoppanen/imagick.git'
+
+imagick_download_dir:
+  '/tmp/imagick'
